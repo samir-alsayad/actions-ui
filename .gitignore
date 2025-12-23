@@ -1,0 +1,7 @@
+# Runtime / local state
+.actions_target_id
+tmp/
+*.log
+
+# OS junk
+.DS_Store

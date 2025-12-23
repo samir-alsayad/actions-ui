@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+while true; do
+  "$HOME/bin/actions"   # <-- external script
+  sleep 0.1
+done
+
