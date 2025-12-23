@@ -1,0 +1,15 @@
+##### actions-ui tmux invariants #####
+
+display-message "actions-ui tmux snippet loaded"
+
+
+# Kill sessions automatically when last client detaches
+# (required for per-terminal tmux autostart)
+set -g destroy-unattached on
+
+# Enable focus events (required for mouse click → typing in iTerm2)
+set -g focus-events on
+
+# Ensure tmux understands mouse events (actions-ui assumes this)
+set -g mouse on
+
