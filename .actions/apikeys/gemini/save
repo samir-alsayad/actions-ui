@@ -1,0 +1,19 @@
+#!/bin/sh
+
+SERVICE="letta-gemini"
+
+printf "API key for '$SERVICE': "
+stty -echo
+read key
+stty echo
+printf "\n"
+
+[ -z "$key" ] && { echo "No key entered"; exit 1; }
+
+security add-generic-password \
+  -a "$USER" \
+  -s "$SERVICE" \
+  -w "$key" \
+  -U
+
+echo "Saved key for: $SERVICE"

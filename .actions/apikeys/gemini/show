@@ -1,0 +1,3 @@
+#!/bin/sh
+SERVICE="letta-gemini"
+security find-generic-password -s "$SERVICE" -w

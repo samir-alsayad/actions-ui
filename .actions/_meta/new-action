@@ -1,0 +1,34 @@
+#!/bin/sh
+
+echo "=== Meta Action: Create New Action ==="
+
+printf "Namespace (e.g. git, docker, docs): "
+read namespace
+[ -z "$namespace" ] && { echo "Aborted"; exit 1; }
+
+printf "Action name (e.g. status, start, open): "
+read name
+[ -z "$name" ] && { echo "Aborted"; exit 1; }
+
+BASE="$HOME/.actions"
+dir="$BASE/$namespace"
+file="$dir/$name"
+
+if [ -e "$file" ]; then
+  echo "Action already exists: $file"
+  exit 1
+fi
+
+mkdir -p "$dir"
+
+cat > "$file" <<'TPL'
+#!/bin/sh
+
+# TODO: implement action
+echo "Action not yet implemented"
+TPL
+
+chmod +x "$file"
+
+echo "Created action:"
+echo "  $file"

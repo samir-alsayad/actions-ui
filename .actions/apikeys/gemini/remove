@@ -1,0 +1,4 @@
+#!/bin/sh
+SERVICE="letta-gemini"
+security delete-generic-password -s "$SERVICE"
+echo "Removed key for: $SERVICE"

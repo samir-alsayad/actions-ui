@@ -1,0 +1,10 @@
+#!/bin/sh
+
+printf "Service name to retrieve: "
+read service
+
+[ -z "$service" ] && { echo "No service name given"; exit 1; }
+
+security find-generic-password \
+  -s "$service" \
+  -w

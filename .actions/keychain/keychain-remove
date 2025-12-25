@@ -1,0 +1,15 @@
+#!/bin/sh
+
+printf "API key service name to delete: "
+read SERVICE
+
+[ -z "$SERVICE" ] && exit 0
+
+echo
+echo "Deleting:"
+echo "  account: $USER"
+echo "  service: $SERVICE"
+echo
+
+security delete-generic-password -a "$USER" -s "$SERVICE"
+

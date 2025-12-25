@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# 1. Get the Main Window ID
+TARGET=$(cat "$HOME/.config/zsh/.actions_target_id")
+
+# 2. Type "cdr" into it
+#    (We use send-keys because we want to trigger the interactive function)
+tmux send-keys -t "$TARGET" "cdr" Enter

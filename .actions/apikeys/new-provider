@@ -1,0 +1,69 @@
+#!/bin/sh
+
+BASE="$HOME/.actions/apikeys"
+
+echo "=== New API Provider ==="
+printf "Provider folder name (e.g. gemini, deepseek): "
+read provider
+
+[ -z "$provider" ] && { echo "No provider name given"; exit 1; }
+
+dir="$BASE/$provider"
+if [ -e "$dir" ]; then
+  echo "Provider folder already exists: $dir"
+  exit 1
+fi
+
+# Default Keychain service name convention
+default_service="letta-$provider-api-key"
+
+printf "Keychain service name [%s]: " "$default_service"
+read service
+[ -z "$service" ] && service="$default_service"
+
+mkdir -p "$dir"
+
+# --- save ---
+cat > "$dir/save" <<TPL
+#!/bin/sh
+
+SERVICE="$service"
+
+printf "API key for '\$SERVICE': "
+stty -echo
+read key
+stty echo
+printf "\\n"
+
+[ -z "\$key" ] && { echo "No key entered"; exit 1; }
+
+security add-generic-password \\
+  -a "\$USER" \\
+  -s "\$SERVICE" \\
+  -w "\$key" \\
+  -U
+
+echo "Saved key for: \$SERVICE"
+TPL
+
+# --- show ---
+cat > "$dir/show" <<TPL
+#!/bin/sh
+SERVICE="$service"
+security find-generic-password -s "\$SERVICE" -w
+TPL
+
+# --- remove ---
+cat > "$dir/remove" <<TPL
+#!/bin/sh
+SERVICE="$service"
+security delete-generic-password -s "\$SERVICE"
+echo "Removed key for: \$SERVICE"
+TPL
+
+chmod +x "$dir/save" "$dir/show" "$dir/remove"
+
+echo "Created provider actions in: $dir"
+echo "  save   (stores/updates key in Keychain)"
+echo "  show   (prints key)"
+echo "  remove (deletes key)"

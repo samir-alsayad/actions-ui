@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ACTIONS_DIR="$HOME/.actions"
+
+# 1) Select namespace (category)
+namespace=$(
+  find "$ACTIONS_DIR" -mindepth 1 -maxdepth 1 -type d |
+    sed 's#.*/##' |
+    fzf --prompt="Actions > "
+)
+
+[ -z "$namespace" ] && exit 0
+
+ns_dir="$ACTIONS_DIR/$namespace"
+
+# 2) Select executable action inside namespace
+action=$(
+  find "$ns_dir" -type f -exec test -x {} \; -print |
+    sed 's#.*/##' |
+    fzf --prompt="$namespace > "
+)
+
+[ -z "$action" ] && exit 0
+
+exec "$ns_dir/$action"

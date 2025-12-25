@@ -1,0 +1,8 @@
+#!/bin/sh
+
+printf "Branch name: "
+read name
+
+[ -z "$name" ] && exit 0
+
+git checkout -b "$name"

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+echo "=== Meta Action: Create New Action Set ==="
+
+printf "Action set namespace (e.g. docker, git, apikeys): "
+read namespace
+[ -z "$namespace" ] && { echo "Aborted"; exit 1; }
+
+BASE="$HOME/.actions"
+dir="$BASE/$namespace"
+
+if [ -e "$dir" ]; then
+  echo "Action set already exists: $dir"
+  exit 1
+fi
+
+mkdir -p "$dir"
+
+cat > "$dir/README" <<TPL
+Action set: $namespace
+
+Describe the intent and conventions for this action set here.
+TPL
+
+echo "Created action set:"
+echo "  $dir"
+echo "Add executable actions inside this directory."
